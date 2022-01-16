@@ -9,6 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 
 import com.sfahafi.model.Categoria;
 import com.sfahafi.repository.I_CategoriasRepository;
@@ -26,12 +29,53 @@ public class JpaDemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {  // psvm seria como la clase principal ejecutable en una aplicacion de escritorio
-		guardarTodas();	
+		buscarTodosPaginacionOrdenados();	
 		
 	}
 	
+	// Metodos I JpaRepository
+	private void buscarTodosPaginacionOrdenados() {
+		Page<Categoria> page = cr.findAll(PageRequest.of(1, 5, Sort.by("nombre").descending())); // of(1, 5) Pagina y cantidad de registros
+		System.out.println("Total registros: " + page.getTotalElements());
+		System.out.println("Total Paginas: " + page.getTotalPages());
+		for(Categoria c : page.getContent()) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+	
+	private void buscarTodosPaginacion() {
+		Page<Categoria> page = cr.findAll(PageRequest.of(1, 5)); // of(1, 5) Pagina y cantidad de registros
+		System.out.println("Total registros: " + page.getTotalElements());
+		System.out.println("Total Paginas: " + page.getTotalPages());
+		for(Categoria c : page.getContent()) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+	
+	private void buscarTodosOrdenado() {
+		List<Categoria> categorias = cr.findAll(Sort.by("nombre").descending()); // descending() forma descendente, sin eso es ascendente
+		for(Categoria c : categorias) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+	
+	private void borrarTodoEnBloque() {
+		cr.deleteAllInBatch();
+	}
+	
+	private void buscarTodasJpa() {
+		List<Categoria> categorias = cr.findAll();
+		for(Categoria c : categorias) {
+			System.out.println(c.getId() + " " + c.getNombre());
+		}
+	}
+	
+	//*************************************************************************************************
+	
+	// metodos de I CrudRepository
 	private void guardarTodas() {
-		 
+		 List<Categoria> categorias = getListaCategorias();
+		 cr.saveAll(categorias);
 	}
 	
 	private void existeId() {
@@ -100,6 +144,29 @@ public class JpaDemoApplication implements CommandLineRunner{
 		System.out.println(cat);
 	}
 	
+	
+	private List<Categoria> getListaCategorias(){
+		List<Categoria> lista = new LinkedList<Categoria>();
+		
+		Categoria cat1 = new Categoria();
+		cat1.setNombre("Backend");
+		cat1.setDescripcion("Desarrollo de software Back");
+		
+		Categoria cat2 = new Categoria();
+		cat2.setNombre("Frontend");
+		cat2.setDescripcion("Desarrollo de software Front");
+		
+		Categoria cat3 = new Categoria();
+		cat3.setNombre("Fullstack");
+		cat3.setDescripcion("Desarrollo de software Full");
+		
+		lista.add(cat1);
+		lista.add(cat2);
+		lista.add(cat3);
+		
+		return lista;
+		
+	}
 		
 
 }
