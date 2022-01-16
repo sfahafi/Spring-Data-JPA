@@ -1,5 +1,6 @@
 package com.sfahafi;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -14,13 +15,26 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import com.sfahafi.model.Categoria;
+import com.sfahafi.model.Vacante;
 import com.sfahafi.repository.I_CategoriasRepository;
+import com.sfahafi.repository.I_PerfilesRepository;
+import com.sfahafi.repository.I_UsuariosRepository;
+import com.sfahafi.repository.I_VacantesRepository;
 
 @SpringBootApplication
 public class JpaDemoApplication implements CommandLineRunner{
 	
 	@Autowired
 	private I_CategoriasRepository cr;
+	
+	@Autowired
+	private I_VacantesRepository vr;
+	
+	@Autowired
+	private I_PerfilesRepository pr;
+	
+	@Autowired
+	private I_UsuariosRepository ur;
 
 	public static void main(String[] args) {
 		SpringApplication.run(JpaDemoApplication.class, args);
@@ -29,10 +43,37 @@ public class JpaDemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {  // psvm seria como la clase principal ejecutable en una aplicacion de escritorio
-		buscarTodosPaginacionOrdenados();	
+		guardarVacante();	
 		
 	}
 	
+	private void guardarVacante() {
+		Vacante vacante = new Vacante();
+		vacante.setNombre("profesor de Matematicas");
+		vacante.setDescripcion("Se solicita profesor con experiencia");
+		vacante.setFecha(new Date());
+		vacante.setSalario(546456456.9);
+		vacante.setEstatus("Aprobada");
+		vacante.setDestacado(0);
+		vacante.setImagen("Escuela.png");
+		vacante.setDetalles("dfgdgdfgdgfdfgdfgsdgfsdgfd");
+		Categoria cat = new Categoria();
+		cat.setId(15);
+		vacante.setCategoria(cat);
+		vr.save(vacante);
+	}
+	
+	private void buscarVacantes() {
+		List<Vacante> lista = vr.findAll();
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + " " + v.getNombre() + " - " + v.getCategoria().getNombre());
+		}
+	}
+	
+	
+	//*********************************************************************************************************
+	
+	// Categorias
 	// Metodos I JpaRepository
 	private void buscarTodosPaginacionOrdenados() {
 		Page<Categoria> page = cr.findAll(PageRequest.of(1, 5, Sort.by("nombre").descending())); // of(1, 5) Pagina y cantidad de registros
