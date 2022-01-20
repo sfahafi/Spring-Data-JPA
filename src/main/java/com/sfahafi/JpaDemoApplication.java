@@ -1,7 +1,7 @@
 package com.sfahafi;
 
 import java.util.Date;
-import java.util.Iterator;
+//import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -15,6 +15,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import com.sfahafi.model.Categoria;
+import com.sfahafi.model.Perfil;
+import com.sfahafi.model.Usuario;
 import com.sfahafi.model.Vacante;
 import com.sfahafi.repository.I_CategoriasRepository;
 import com.sfahafi.repository.I_PerfilesRepository;
@@ -43,9 +45,42 @@ public class JpaDemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {  // psvm seria como la clase principal ejecutable en una aplicacion de escritorio
-		guardarVacante();	
+		crearUsuarioConDosPerfil();	
 		
 	}
+	
+	private void crearUsuarioConDosPerfil() {
+		Usuario user = new Usuario();
+		user.setNombre("Sharbel Fahafi");
+		user.setEmail("safahafi18@gmail.com");
+		user.setFechaRegistro(new Date());
+		user.setUsername("sfahafi");
+		user.setPassword("3570");
+		user.setEstatus(1);
+		
+		Perfil per1 = new Perfil();
+		per1.setId(1);
+		
+		Perfil per2 = new Perfil();
+		per1.setId(2);
+		
+		user.agregar(per1);
+		user.agregar(per2);
+		
+		ur.save(user);
+		
+	}
+	
+	/*
+	//****************************************************************************
+	// Metodo para agregar pefiles a la base de datos
+	
+	private void crearPerfilesAplicacion() {
+		pr.saveAll(getPerfilesAplicacion());
+	}
+	
+	
+	//*****************************************************************************
 	
 	private void guardarVacante() {
 		Vacante vacante = new Vacante();
@@ -208,6 +243,30 @@ public class JpaDemoApplication implements CommandLineRunner{
 		return lista;
 		
 	}
+	
+	
+	
+	private List<Perfil> getPerfilesAplicacion(){
+		List<Perfil> lista = new LinkedList<Perfil>();
+		
+		Perfil per1 = new Perfil();
+		per1.setPerfil("SUPERVISOR");
+		
+		Perfil per2 = new Perfil();
+		per2.setPerfil("ADMINISTRADOR");
+		
+		Perfil per3 = new Perfil();
+		per3.setPerfil("USUARIO");
+		
+		lista.add(per1);
+		lista.add(per2);
+		lista.add(per3);
+		
+		return lista;
+		
+	}
+	
+	*/
 		
 
 }

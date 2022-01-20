@@ -1,6 +1,8 @@
 package com.sfahafi.model;
 
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.persistence.*;
 
@@ -17,6 +19,21 @@ public class Usuario {
 	private String password;
 	private Integer estatus;
 	private Date fechaRegistro;
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "usuarioperfil",
+				joinColumns = @JoinColumn(name = "idUsuario"),
+				inverseJoinColumns = @JoinColumn(name = "idPerfil")
+			   )
+	private List<Perfil> perfiles;
+	
+	public void agregar(Perfil tempPerfil) {
+		if(perfiles == null) {
+			perfiles = new LinkedList<>();			
+		}
+		perfiles.add(tempPerfil);
+	}
+	
 	public Integer getId() {
 		return id;
 	}
@@ -60,7 +77,12 @@ public class Usuario {
 		this.fechaRegistro = fechaRegistro;
 	}
 	
-	
+	public List<Perfil> getPerfiles() {
+		return perfiles;
+	}
+	public void setPerfiles(List<Perfil> perfiles) {
+		this.perfiles = perfiles;
+	}
 	@Override
 	public String toString() {
 		return "Usuario [id=" + id + ", username=" + username + ", nombre=" + nombre + ", email=" + email
