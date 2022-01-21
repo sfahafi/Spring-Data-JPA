@@ -1,7 +1,7 @@
 package com.sfahafi;
 
 import java.util.Date;
-//import java.util.Iterator;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -49,20 +49,30 @@ public class JpaDemoApplication implements CommandLineRunner{
 		
 	}
 	
+	public void buscarUsuario() {
+		Optional<Usuario> optional = ur.findById(9);
+		if(optional.isPresent()) {
+			Usuario u = optional.get();
+			System.out.println();
+			System.out.println();
+			System.out.println();
+		}
+	}
+	
 	private void crearUsuarioConDosPerfil() {
 		Usuario user = new Usuario();
-		user.setNombre("Sharbel Fahafi");
-		user.setEmail("safahafi18@gmail.com");
+		user.setNombre("Test demo");
+		user.setEmail("test@gmail.com");
 		user.setFechaRegistro(new Date());
-		user.setUsername("sfahafi");
-		user.setPassword("3570");
+		user.setUsername("test");
+		user.setPassword("test");
 		user.setEstatus(1);
 		
 		Perfil per1 = new Perfil();
-		per1.setId(1);
+		per1.setId(2);
 		
 		Perfil per2 = new Perfil();
-		per1.setId(2);
+		per1.setId(3);
 		
 		user.agregar(per1);
 		user.agregar(per2);
@@ -71,7 +81,7 @@ public class JpaDemoApplication implements CommandLineRunner{
 		
 	}
 	
-	/*
+	
 	//****************************************************************************
 	// Metodo para agregar pefiles a la base de datos
 	
@@ -266,7 +276,7 @@ public class JpaDemoApplication implements CommandLineRunner{
 		
 	}
 	
-	*/
+	
 		
 
 }

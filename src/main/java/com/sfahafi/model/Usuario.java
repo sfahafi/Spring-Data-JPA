@@ -25,6 +25,7 @@ public class Usuario {
 				joinColumns = @JoinColumn(name = "idUsuario"),
 				inverseJoinColumns = @JoinColumn(name = "idPerfil")
 			   )
+	
 	private List<Perfil> perfiles;
 	
 	public void agregar(Perfil tempPerfil) {

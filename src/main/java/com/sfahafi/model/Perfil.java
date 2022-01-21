@@ -12,6 +12,14 @@ public class Perfil {
 	
 	private String perfil;
 
+	
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "UsuarioPerfil", // tabla intermedia
+			joinColumns = @JoinColumn(name = "idPerfil"), 
+			inverseJoinColumns = @JoinColumn(name = "idUsuario") 
+	)
+	
+	
 	public Integer getId() {
 		return id;
 	}
