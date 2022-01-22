@@ -1,7 +1,6 @@
 package com.sfahafi;
 
 import java.util.Date;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -45,34 +44,38 @@ public class JpaDemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {  // psvm seria como la clase principal ejecutable en una aplicacion de escritorio
-		crearUsuarioConDosPerfil();	
+		buscarUsuario();	
 		
 	}
 	
 	public void buscarUsuario() {
-		Optional<Usuario> optional = ur.findById(9);
+		Optional<Usuario> optional = ur.findById(2);
 		if(optional.isPresent()) {
 			Usuario u = optional.get();
-			System.out.println();
-			System.out.println();
-			System.out.println();
+			System.out.println("Usuario: " + u.getNombre());
+			System.out.println("Perfiles asignados: ");
+			for (Perfil p : u.getPerfiles()) {
+				System.out.println(p.getPerfil());
+			}
+		}else {
+			System.out.println("Usuario no encontrado");
 		}
 	}
 	
 	private void crearUsuarioConDosPerfil() {
 		Usuario user = new Usuario();
-		user.setNombre("Test demo");
-		user.setEmail("test@gmail.com");
+		user.setNombre("Sharbel Fahafi");
+		user.setEmail("sfahafi18gmail.com");
 		user.setFechaRegistro(new Date());
-		user.setUsername("test");
-		user.setPassword("test");
+		user.setUsername("sfahafi");
+		user.setPassword("3570");
 		user.setEstatus(1);
 		
 		Perfil per1 = new Perfil();
-		per1.setId(2);
+		per1.setId(1);
 		
 		Perfil per2 = new Perfil();
-		per1.setId(3);
+		per2.setId(3);
 		
 		user.agregar(per1);
 		user.agregar(per2);
