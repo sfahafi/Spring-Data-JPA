@@ -44,9 +44,48 @@ public class JpaDemoApplication implements CommandLineRunner{
 
 	@Override
 	public void run(String... args) throws Exception {  // psvm seria como la clase principal ejecutable en una aplicacion de escritorio
-		buscarUsuario();	
+		buscarVacantesVariosEstatus();;	
 		
 	}
+	
+	// Query Methods aplicacion de metedo de la interfaz vr
+	
+	private void buscarVacantesVariosEstatus() {
+		String[] estatus = new String[] {"Eliminada", "Creada"};
+		List<Vacante> lista = vr.findByEstatusIn(estatus);
+		System.out.println("Registros encontrados: " + lista.size());
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getEstatus());
+		}
+	}
+	
+	private void buscarVacantesSalario() {
+		List<Vacante> lista = vr.findBySalarioBetweenOrderBySalarioDesc(7000.0, 14000.0);
+		System.out.println("Registros encontrados: " + lista.size());
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getSalario());
+		}
+	}
+	
+	
+	private void buscarVacantesPorDestacadoEstatus() {
+		List<Vacante> lista = vr.findByDestacadoAndEstatusOrderByIdDesc(1, "Aprobada");
+		System.out.println("Registros encontrados: " + lista.size());
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getEstatus() + ": " + v.getDestacado());
+		}
+	}
+	
+	private void buscarVacantesPorEstatus() {
+		List<Vacante> lista = vr.findByEstatus("Aprobada");
+		System.out.println("Registros encontrados: " + lista.size());
+		for(Vacante v : lista) {
+			System.out.println(v.getId() + ": " + v.getNombre() + ": " + v.getEstatus());
+		}
+	}
+	
+	
+	//***************************************************************************
 	
 	public void buscarUsuario() {
 		Optional<Usuario> optional = ur.findById(2);
